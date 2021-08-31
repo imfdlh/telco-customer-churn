@@ -1,5 +1,5 @@
 # Telco Customer Churn
-Predictive modeling of telco customer churn tendency using Sequential NN.
+Predictive modeling of telco customer churn tendency using Sequential Neural Network.
 
 # Deployment Site
 https://fadilah-milestone1p2.herokuapp.com/
