@@ -1,0 +1,434 @@
+{% include "layout/header.html" %}
+{% include "layout/navbar.html" %}
+
+<main>
+
+    <div class="container-md">
+      <div class="row mb-5 mt-5">
+        <div class="col-md" style="padding-left: 2vw; padding-right: 2vw">
+            <h1 class="mb-5 text-center">Form Customer Data</h1>
+
+            {% if show_prediction %}
+              <div class="row g-3">
+                <div class="col-md g-3" style="padding-right: 23px">
+                  <div id ="predicton-result" class ="predicton-result">
+                      <div class="alert alert-info {% if prediction_churn %} alert-warning {% endif %} alert-dismissible " role="alert" id="liveAlert">{{ prediction_text }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                      <br>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+
+            <form action="{{ url_for('predict') }}" method ="post" class="row g-3 needs-validation" novalidate>
+
+                <label for="client-data" class="form-label"><h4>Personal Information</h4></label>
+                <div class="row g-3 mt-0">
+                  <div class="col-md-6">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Gender</label>
+                    <div class="input-group has-validation">
+                      <div class="input-group-text">Gender</div>
+                        <select class="form-select form-control" aria-label="Gender" id="gender_male" name="gender_male" required>
+                          <option class ="form-control" selected disabled value="">Choose customer gender</option>
+                            <option class ="form-control" value="0">Female</option>
+                            <option class ="form-control" value="1">Male</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Senior Citizen</label>
+                    <div class="input-group has-validation">
+                      <div class="input-group-text">Senior Citizen</div>
+                        <select class="form-select form-control" aria-label="Senior Citizen" id="SeniorCitizen" name="SeniorCitizen" required>
+                            <option class ="form-control" selected disabled value="">Is the customer a senior citizen?</option>
+                            <option class ="form-control" value="0">No</option>
+                            <option class ="form-control" value="1">Yes</option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                  <div class="col-md-6">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Partner</label>
+                    <div class="input-group has-validation">
+                      <div class="input-group-text">Partner</div>
+                        <select class="form-select form-control" aria-label="Partner" id="Partner_yes" name="Partner_yes" required>
+                          <option class ="form-control" selected disabled value="">Has a partner?</option>
+                            <option class ="form-control" value="0">No</option>
+                            <option class ="form-control" value="1">Yes</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Dependents</label>
+                    <div class="input-group has-validation">
+                      <div class="input-group-text">Dependents</div>
+                        <select class="form-select form-control" aria-label="Dependents" id="Dependents_yes" name="Dependents_yes" required>
+                          <option class ="form-control" selected disabled value="">Has dependents?</option>
+                            <option class ="form-control" value="0">No</option>
+                            <option class ="form-control" value="1">Yes</option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <br>
+                <hr>
+                <br>
+
+                <label for="client-data" class="form-label" style="margin-top: 2rem"><h4>Customer Subscription Data</h4></label>
+                <div class="row g-3 mt-0">
+                  <div class="col-md-4">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Tenure</label>
+                    <div class="input-group has-validation">
+                      <div class="input-group-text">Tenure</div>
+                      <input type="number" min = 0 step = 1 class="form-control" placeholder="Tenure" aria-label="Tenure" id="tenure" name="tenure" required>
+                      <div class="input-group-text">month(s)</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Type of Contract</label>
+                    <div class="input-group has-validation">
+                      <div class="input-group-text">Type of Contract</div>
+                        <select class="form-select form-control" aria-label="Type of Contract" id="Contract" name="Contract" required>
+                          <option class ="form-control" selected disabled value="">Choose contract type</option>
+                            <option class ="form-control" value="month_to_month">Month-to-month</option>
+                            <option class ="form-control" value="one_year">One year</option>
+                            <option class ="form-control" value="two_year">Two year</option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Paperless Billing</label>
+                    <div class="input-group has-validation">
+                      <div class="input-group-text">Paperless Billing</div>
+                        <select class="form-select form-control" aria-label="Paperless Billing" id="PaperlessBilling_yes" name="PaperlessBilling_yes" required>
+                          <option class ="form-control" selected disabled value="">Choose billing type</option>
+                            <option class ="form-control" value="0">No</option>
+                            <option class ="form-control" value="1">Yes</option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Monthly Charges</label>
+                    <div class="input-group has-validation">
+                      <div class="input-group-text">Monthly Charges</div>
+                      <input type="number" min = 0 step = 0.00001 class="form-control" placeholder="Monthly Charges" aria-label="Monthly Charges" id="MonthlyCharges" name="MonthlyCharges" required>
+                      <div class="input-group-text">$</div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Total Charges</label>
+                    <div class="input-group has-validation">
+                      <div class="input-group-text">Total Charges</div>
+                      <input type="number" min = 0 step = 0.00001 class="form-control" placeholder="Total Charges" aria-label="Total Charges" id="TotalCharges" name="TotalCharges" required>
+                      <div class="input-group-text">$</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                  <div class="col-md-12">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Payment Method</label>
+                    <div class="input-group has-validation">
+                      <div class="input-group-text">Payment Method</div>
+                        <select class="form-select form-control" aria-label="Payment Method" id="PaymentMethod" name="PaymentMethod" required>
+                          <option class ="form-control" selected disabled value="">Choose payment method</option>
+                            <option class ="form-control" value="bank_transfer_automatic">Bank Transfer (automatic)</option>
+                            <option class ="form-control" value="credit_card_automatic">Credit card (automatic)</option>
+                            <option class ="form-control" value="electronic_check">Electronic check</option>
+                            <option class ="form-control" value="mailed_check">Mailed check</option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <hr>
+                <br>
+
+                <label for="client-data" class="form-label" style="margin-top: 2rem"><h4>Phone Service</h4></label>
+                <div class="row g-3 mt-0 mb-4">
+                  <div class="col-md-3">
+                    <label for="PhoneService_yes" class="form-label">Use Phone Service:</label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="PhoneService_yes" id="PhoneService_yes" value="0" required>
+                      <label class="form-check-label" for="PhoneService_yes">No</label>
+                    </div>
+
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="PhoneService_yes" id="PhoneService_yes" value="1" required>
+                      <label class="form-check-label" for="PhoneService_yes">Yes</label>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <label class="visually-hidden" for="autoSizingInputGroup">Multiple Lines</label>
+                    <div class="input-group has-validation">
+                      <div class="input-group-text">Multiple Lines</div>
+                        <select class="form-select form-control" aria-label="Multiple Lines" id="MultipleLines" name="MultipleLines" required>
+                            <option class ="form-control" selected disabled value="">Choose phone service</option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+
+                <br>
+                <hr>
+                <br>
+
+                <label for="client-data" class="form-label" style="margin-top: 2rem"><h4>Internet Service</h4></label>
+                <div class="row g-3 mt-0 mb-4">
+                  <div class="col-md-3">
+                    <div class="col-md-12">
+                      <label for="InternetService_yes" class="form-label">Use Internet Service:</label>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="InternetService_yes" id="InternetService_yes" value="0" required>
+                        <label class="form-check-label" for="InternetService_yes">No</label>
+                      </div>
+
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="InternetService_yes" id="InternetService_yes" value="1" required>
+                        <label class="form-check-label" for="InternetService_yes">Yes</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-9">
+                    <div class="row g-3 mb-4">
+                      <div class="col-md-12">
+                        <label class="visually-hidden" for="autoSizingInputGroup">Internet Service Type</label>
+                        <div class="input-group has-validation">
+                          <div class="input-group-text">Internet Service Type</div>
+                            <select class="form-select form-control" aria-label="Internet Service Type" id="InternetServiceType" name="InternetServiceType" required>
+                              <option class ="form-control" selected disabled value="">Choose internet service</option>
+                            </select>
+                        </div>
+                      </div>
+                    </div> 
+                    <div class="row g-3 mb-4">
+                      <div class="col-md-6">
+                        <label class="visually-hidden" for="autoSizingInputGroup">Online Security</label>
+                        <div class="input-group has-validation">
+                          <div class="input-group-text">Online Security</div>
+                            <select class="form-select form-control" aria-label="Online Security" id="OnlineSecurity" name="OnlineSecurity" required>
+                              <option class ="form-control" selected disabled value="">Choose internet service</option>
+                            </select>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="visually-hidden" for="autoSizingInputGroup">Online Backup</label>
+                        <div class="input-group has-validation">
+                          <div class="input-group-text">Online Security</div>
+                            <select class="form-select form-control" aria-label="Online Backup" id="OnlineBackup" name="OnlineBackup" required>
+                              <option class ="form-control" selected disabled value="">Choose internet service</option>
+                            </select>
+                        </div>
+                      </div>
+                    </div> 
+                    <div class="row g-3 mb-4">
+                      <div class="col-md-6">
+                        <label class="visually-hidden" for="autoSizingInputGroup">Device Protection</label>
+                        <div class="input-group has-validation">
+                          <div class="input-group-text">Device Protection</div>
+                            <select class="form-select form-control" aria-label="Device Protection" id="DeviceProtection" name="DeviceProtection" required>
+                              <option class ="form-control" selected disabled value="">Choose internet service</option>
+                            </select>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="visually-hidden" for="autoSizingInputGroup">Tech Support</label>
+                        <div class="input-group has-validation">
+                          <div class="input-group-text">Tech Support</div>
+                            <select class="form-select form-control" aria-label="Tech Support" id="TechSupport" name="TechSupport" required>
+                              <option class ="form-control" selected disabled value="">Choose internet service</option>
+                            </select>
+                        </div>
+                      </div>
+                    </div>  
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <label class="visually-hidden" for="autoSizingInputGroup">Streaming TV</label>
+                        <div class="input-group has-validation">
+                          <div class="input-group-text">Streaming TV</div>
+                            <select class="form-select form-control" aria-label="Streaming TV" id="StreamingTV" name="StreamingTV" required>
+                              <option class ="form-control" selected disabled value="">Choose internet service</option>
+                            </select>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="visually-hidden" for="autoSizingInputGroup">Streaming Movies</label>
+                        <div class="input-group has-validation">
+                          <div class="input-group-text">Streaming Movies</div>
+                            <select class="form-select form-control" aria-label="Streaming Movies" id="StreamingMovies" name="StreamingMovies" required>
+                              <option class ="form-control" selected disabled value="">Choose internet service</option>
+                            </select>
+                        </div>
+                      </div>
+                    </div>                 
+                  </div>
+                </div>
+
+                <br>
+
+                <div class="row g-3 mt-2 mb-5">
+                  <div class="col-md-12 d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-dark btn-lg" id="liveAlertBtn">Predict</button>
+                  </div>
+                </div>
+
+            </form>
+        </div>
+      </div>
+    </div>
+</main>
+
+{% include "layout/footnotes.html" %}
+
+<script src="https://code.jquery.com/jquery-2.1.3.min.js" integrity="sha256-ivk71nXhz9nsyFDoYoGf2sbjrR9ddh+XDkCcfZxjvcM=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+var list_phone_service_no = [{name:'No phone service', value:'no_phone_service'}];
+
+var list_phone_service_yes = [{name:'No', value:'no'}, {name:'Yes', value:'yes'}];
+
+$(document).ready( function() {
+  $("input[name='PhoneService_yes']").on('change',function() {
+
+      if($(this).is(':checked') && $(this).val() == '0')
+      {
+        $('#MultipleLines').empty()
+        $.each(list_phone_service_no, function(index, value) {
+         $('#MultipleLines').append('<option value="'+value.value+'">'+value.name+'</option>');
+        });                  
+      }
+      else if($(this).is(':checked') && $(this).val() == '1')
+      {
+        $('#MultipleLines').empty()
+        $.each(list_phone_service_yes, function(index, value) {
+         $('#MultipleLines').append('<option value="'+value.value+'">'+value.name+'</option>');
+        }); 
+      }
+      else
+      {
+
+      }
+
+  });
+});
+</script>
+
+<script type="text/javascript">
+var list_internet_service_no = [{name:'No internet service', value:'no_internet_service'}];
+
+var list_internet_service_yes = [{name:'DSL', value:'dsl'}, {name:'Fiber optic', value:'fiber_optic'}];
+
+$(document).ready( function() {
+  $("input[name='InternetService_yes']").on('change',function() {
+
+      if($(this).is(':checked') && $(this).val() == '0')
+      {
+        $('#InternetServiceType').empty()
+        $.each(list_internet_service_no, function(index, value) {
+         $('#InternetServiceType').append('<option value="'+value.value+'">'+value.name+'</option>');
+        });                  
+      }
+      else if($(this).is(':checked') && $(this).val() == '1')
+      {
+        $('#InternetServiceType').empty()
+        $.each(list_internet_service_yes, function(index, value) {
+         $('#InternetServiceType').append('<option value="'+value.value+'">'+value.name+'</option>');
+        }); 
+      }
+      else
+      {
+
+      }
+
+  });
+});
+</script>
+
+<script type="text/javascript">
+var list_internet_service_oth_no = [{name:'No internet service', value:'no_internet_service'}];
+
+var list_internet_service_oth_yes = [{name:'No', value:'no'}, {name:'Yes', value:'yes'}];
+
+$(document).ready( function() {
+  $("input[name='InternetService_yes']").on('change',function() {
+
+      if($(this).is(':checked') && $(this).val() == '0')
+      {
+        $('#OnlineSecurity').empty()
+        $.each(list_internet_service_oth_no, function(index, value) {
+         $('#OnlineSecurity').append('<option value="'+value.value+'">'+value.name+'</option>');
+        });
+
+        $('#OnlineBackup').empty()
+        $.each(list_internet_service_oth_no, function(index, value) {
+         $('#OnlineBackup').append('<option value="'+value.value+'">'+value.name+'</option>');
+        });
+
+        $('#DeviceProtection').empty()
+        $.each(list_internet_service_oth_no, function(index, value) {
+         $('#DeviceProtection').append('<option value="'+value.value+'">'+value.name+'</option>');
+        });
+
+        $('#TechSupport').empty()
+        $.each(list_internet_service_oth_no, function(index, value) {
+         $('#TechSupport').append('<option value="'+value.value+'">'+value.name+'</option>');
+        });   
+
+        $('#StreamingTV').empty()
+        $.each(list_internet_service_oth_no, function(index, value) {
+         $('#StreamingTV').append('<option value="'+value.value+'">'+value.name+'</option>');
+        }); 
+
+        $('#StreamingMovies').empty()
+        $.each(list_internet_service_oth_no, function(index, value) {
+         $('#StreamingMovies').append('<option value="'+value.value+'">'+value.name+'</option>');
+        });                 
+      }
+      else if($(this).is(':checked') && $(this).val() == '1')
+      {
+        $('#OnlineSecurity').empty()
+        $.each(list_internet_service_oth_yes, function(index, value) {
+         $('#OnlineSecurity').append('<option value="'+value.value+'">'+value.name+'</option>');
+        }); 
+
+        $('#OnlineBackup').empty()
+        $.each(list_internet_service_oth_yes, function(index, value) {
+         $('#OnlineBackup').append('<option value="'+value.value+'">'+value.name+'</option>');
+        });
+
+        $('#DeviceProtection').empty()
+        $.each(list_internet_service_oth_yes, function(index, value) {
+         $('#DeviceProtection').append('<option value="'+value.value+'">'+value.name+'</option>');
+        });  
+
+        $('#TechSupport').empty()
+        $.each(list_internet_service_oth_yes, function(index, value) {
+         $('#TechSupport').append('<option value="'+value.value+'">'+value.name+'</option>');
+        });
+
+        $('#StreamingTV').empty()
+        $.each(list_internet_service_oth_yes, function(index, value) {
+         $('#StreamingTV').append('<option value="'+value.value+'">'+value.name+'</option>');
+        });
+
+        $('#StreamingMovies').empty()
+        $.each(list_internet_service_oth_yes, function(index, value) {
+         $('#StreamingMovies').append('<option value="'+value.value+'">'+value.name+'</option>');
+        }); 
+      }
+      else
+      {
+
+      }
+
+  });
+});
+</script>
+
+{% include "layout/footer.html" %}

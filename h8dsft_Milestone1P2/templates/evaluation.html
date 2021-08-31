@@ -1,0 +1,28 @@
+{% include "layout/header.html" %}
+{% include "layout/navbar.html" %}
+
+<main>
+
+    <div class="container-md">
+      <div class="row mb-5 mt-5">
+        <div class="col-md" style="padding-left: 2vw; padding-right: 2vw">
+            <h1 class="mb-5 text-center">Model Performance Evaluation</h1>
+        </div>
+      </div>
+      <div class="row mb-5 mt-5">
+        <div class="col-md-12" style="padding-left: 2vw; padding-right: 2vw">
+            <div id="chart" class="chart"></div>
+        </div>
+      </div>
+    </div>
+</main>
+
+{% include "layout/footnotes.html" %}
+{% include "layout/footer.html" %}
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+
+  var graph = {{ graphJSON | safe }};
+  Plotly.plot('chart', graph, {});
+</script>
