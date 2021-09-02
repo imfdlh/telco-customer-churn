@@ -6,6 +6,9 @@ https://fadilah-milestone1p2.herokuapp.com/
 
 Template by Fadilah, powered by Bootstrap v5.1.
 
+# Source
+Source: https://www.kaggle.com/blastchar/telco-customer-churn
+
 # Objective
 The objective of this project is to build predictive modeling of customer churn using an Artificial Neural Network (ANN). If the target variable corresponds to "Churn" is yes, it means this customer has no longer subscribed to this telco company's services.
 
