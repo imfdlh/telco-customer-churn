@@ -6,7 +6,9 @@ https://fadilah-milestone1p2.herokuapp.com/
 
 Template by Fadilah, powered by Bootstrap v5.1.
 
-# Source
+# Data Source
+This dataset contains 7043 rows and 21 columns. Out of 21, there is a column called "Churn" that will be the target variable, while the rest of 20 columns are the predictors and a unique identifier.
+
 Source: https://www.kaggle.com/blastchar/telco-customer-churn
 
 # Objective
